@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: webDockerfile
+    container_name: web
+    ports:
+      - 8080:8080
+    command: go run /app/cmd/http/main.go
+    environment:
+      - LAMBDA_ENDPOINT=http://lambda:9001
+      - LAMBDA_NAME=hello
+    volumes:
+      - .:/app:ro,delegated
+  lambda:
+    container_name: lambda
+    image: lambci/lambda:go1.x
+    ports:
+      - 9001:9001
+    command: bin/hello
+    environment:
+      - DOCKER_LAMBDA_STAY_OPEN=1
+    volumes:
+      - .:/var/task:ro,delegated

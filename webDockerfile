@@ -1,0 +1,8 @@
+FROM golang:1.14
+
+WORKDIR /go/src/app
+COPY . .
+
+RUN go get -d -v ./...
+
+CMD ["go", "run", "cmd/http/main.go"]

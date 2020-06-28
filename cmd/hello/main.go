@@ -17,13 +17,11 @@ import (
 type Response events.APIGatewayProxyResponse
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
-func Handler(ctx context.Context, input string) (Response, error) {
+func Handler(ctx context.Context) (Response, error) {
 	var buf bytes.Buffer
-	fmt.Println("receive input", input)
 
 	body, err := json.Marshal(map[string]interface{}{
 		"message": "Go Serverless v1.0! Your function executed successfully!",
-		"input":   input,
 	})
 	if err != nil {
 		return Response{StatusCode: 404}, err
